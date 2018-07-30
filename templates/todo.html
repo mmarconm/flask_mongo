@@ -9,6 +9,7 @@
 </head>
 <body>
   <div class="container">
+
     <br>
     <div class="">
       <form class="form-group" action="{{ url_for('new') }}" method="POST">
@@ -16,11 +17,24 @@
         <input class="form-control" type="text" name="name" placeholder="Name"></input>
         <label for="">Description</label>
         <input class="form-control" type="text" name="description" placeholder="Description"></input>
+        <br>
         <input class="btn btn-primary btn-block" type="submit" value="Save Users"></input>
       </form>
 
     </div>
-
+    <br>
+    <div class="flash">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <ul class=list-group>
+        {% for message in messages %}
+        <li class="list-group-item bg-danger" style="color: white">{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% endwith %}
+    </div>
+    <br>
     <div class="jumbotron">
       <p>Flask And Mongodb</p>
       <h4>Users in list: <span class="badge badge-primary badge-pill">{{ count }}</span></h4>

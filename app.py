@@ -1,8 +1,9 @@
-from flask import Flask, redirect, url_for, request, render_template
+from flask import Flask, redirect, url_for, request, render_template, flash
 from pymongo import MongoClient
 from uuid import uuid4
 
 app = Flask(__name__)
+app.secret_key = 'Secret'
 
 client = MongoClient('192.168.0.103')
 db = client.tododb
@@ -32,6 +33,7 @@ def new():
     else:
         return redirect(url_for('todo'))
 
+    flash('User Saved !')
     return redirect(url_for('todo'))
 
 @app.route('/delete/<string:id>', methods=['POST', 'GET'])
@@ -41,6 +43,7 @@ def delete(id):
             "id": id
         }
         db.tododb.remove(item_doc)
+        flash("User Deleted !")
         return redirect(url_for('todo'))
 
     return 'Wrong'
