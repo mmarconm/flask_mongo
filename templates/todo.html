@@ -15,8 +15,8 @@
       <form class="form-group" action="{{ url_for('new') }}" method="POST">
         <label for="">Name</label>
         <input class="form-control" type="text" name="name" placeholder="Name"></input>
-        <label for="">Description</label>
-        <input class="form-control" type="text" name="description" placeholder="Description"></input>
+        <label for="">Language</label>
+        <input class="form-control" type="text" name="language" placeholder="Language"></input>
         <br>
         <input class="btn btn-primary btn-block" type="submit" value="Save Users"></input>
       </form>
@@ -42,7 +42,7 @@
       <ul class="list-group ">
         <li class="list-group-item list-group-item-action">Name: {{ item.name }}</li>
         <li class="list-group-item list-group-item-action">Create At: {{ item.date }}</li>
-        <li class="list-group-item list-group-item-action">Description: {{ item.description }}</li>
+        <li class="list-group-item list-group-item-action">Language: {{ item.language }}</li>
         <li class="list-group-item list-group-item-action"><a href="{{ url_for('delete', id=item.id) }}">Delete Me </a></li>
       </ul>
       <br>

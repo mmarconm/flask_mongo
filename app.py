@@ -27,10 +27,10 @@ def new():
         'id': uuid4().hex,
         'date': datetime.now().strftime('%b %d %Y %I:%M%p'),
         'name': request.form['name'],
-        'description': request.form['description']
+        'language': request.form['language']
     }
 
-    if item_doc['name'] and item_doc['description']:
+    if item_doc['name'] and item_doc['language']:
         db.tododb.insert_one(item_doc)
     else:
         return redirect(url_for('todo'))
