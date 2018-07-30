@@ -1,6 +1,7 @@
 from flask import Flask, redirect, url_for, request, render_template, flash
 from pymongo import MongoClient
 from uuid import uuid4
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'Secret'
@@ -24,6 +25,7 @@ def new():
 
     item_doc = {
         'id': uuid4().hex,
+        'date': datetime.now().strftime('%b %d %Y %I:%M%p'),
         'name': request.form['name'],
         'description': request.form['description']
     }
