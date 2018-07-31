@@ -6,7 +6,9 @@ from datetime import datetime
 app = Flask(__name__)
 app.secret_key = 'Secret'
 
-client = MongoClient('192.168.0.103')
+# client = MongoClient('192.168.0.103')
+client = MongoClient("mongodb://mmarconm:admin@localhost/tododb") # defaults to port 27017
+
 db = client.tododb
 
 
@@ -23,17 +25,19 @@ def todo():
 @app.route('/new', methods=['POST'])
 def new():
 
-    item_doc = {
-        'id': uuid4().hex,
-        'date': datetime.now().strftime('%b %d %Y %I:%M%p'),
-        'name': request.form['name'],
-        'language': request.form['language']
-    }
+    if request.method == "POST":
 
-    if item_doc['name'] and item_doc['language']:
-        db.tododb.insert_one(item_doc)
-    else:
-        return redirect(url_for('todo'))
+        item_doc = {
+            'id': uuid4().hex,
+            'date': datetime.now().strftime('%b %d %Y %I:%M%p'),
+            'email': request.form['email'],
+            'name': request.form['name'],
+            'status': request.form['option'],
+            'language': request.form['language']
+        }
+
+        if item_doc['name'] and item_doc['language']:
+            db.tododb.insert_one(item_doc)
 
     flash('User Saved !')
     return redirect(url_for('todo'))
@@ -50,6 +54,15 @@ def delete(id):
 
     return 'Wrong'
 
+@app.route('/delete_all', methods=['POST', 'GET'])
+def delete_all():
+    if db.tododb.find().count() > 0:
+        db.tododb.drop()
+        flash('Removed All Users from Database')
+        return redirect(url_for('todo'))
+
+    flash('There is not users to delete in Database')
+    return redirect(url_for('todo'))
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

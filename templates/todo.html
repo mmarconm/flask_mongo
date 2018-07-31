@@ -9,21 +9,63 @@
 </head>
 <body>
   <div class="container">
-
     <br>
-    <div class="">
-      <form class="form-group" action="{{ url_for('new') }}" method="POST">
-        <label for="">Name</label>
-        <input class="form-control" type="text" name="name" placeholder="Name"></input>
-        <label for="">Language</label>
-        <input class="form-control" type="text" name="language" placeholder="Language"></input>
+    <form class="" action="{{ url_for('new') }}" method="POST">
+      <div class="form-group">
+        <div class="">
+          <label for="">Name</label>
+          <input class="form-control" type="text" name="name" placeholder="Name..."></input>
+        </div>
+        <div class="">
+          <label for="">Language</label>
+          <input class="form-control" type="text" name="language" placeholder="Language..."></input>
+        </div>
+        <div class="">
+          <label for="">Email</label>
+          <input class="form-control" type="text" name="email" placeholder="Email..."></input>
+        </div>
         <br>
-        <input class="btn btn-primary btn-block" type="submit" value="Save Users"></input>
-      </form>
-
-    </div>
+        <div class="">
+          <input class="" type="radio" value="em_rota" name="option"> Em Rota
+          <input class="" type="radio" value="entregar" name="option"> A Entregar
+          <input class="" type="radio" value="conferir" name="option"> Conferir
+        </div>
+      </div>
+      <br>
+      <div class="">
+        <input class="btn btn-primary bt-block" type="submit" value="Save Users"></input>
+        <a href="{{ url_for('delete_all') }}" class="btn btn-danger">Delete All</a>
+      </div>
+    </form>
     <br>
-    <div class="flash">
+
+    <br>
+    <div class="jumbotron">
+      <p>Flask And Mongodb</p>
+      <h4>Users in list: <span class="badge badge-primary badge-pill">{{ count }}</span></h4>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Date</th>
+            <th scope="col">Language</th>
+            <th scope="col">Status</th>
+            <th scope="col">Delete Me</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+            <tr>
+              <td>{{ item.name }}</td>
+              <td>{{ item.date }}</td>
+              <td>{{ item.language }}</td>
+              <td>{{ item.status }}</td>
+              <td><a href="{{ url_for('delete', id=item.id) }}">Delete</a></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+            <div class="flash">
       {% with messages = get_flashed_messages() %}
       {% if messages %}
       <ul class=list-group>
@@ -34,27 +76,14 @@
       {% endif %}
       {% endwith %}
     </div>
-    <br>
-    <div class="jumbotron">
-      <p>Flask And Mongodb</p>
-      <h4>Users in list: <span class="badge badge-primary badge-pill">{{ count }}</span></h4>
-      {% for item in items %}
-      <ul class="list-group ">
-        <li class="list-group-item list-group-item-action">Name: {{ item.name }}</li>
-        <li class="list-group-item list-group-item-action">Create At: {{ item.date }}</li>
-        <li class="list-group-item list-group-item-action">Language: {{ item.language }}</li>
-        <li class="list-group-item list-group-item-action"><a href="{{ url_for('delete', id=item.id) }}">Delete Me </a></li>
-      </ul>
+      </div>
       <br>
-      {% endfor %}
     </div>
-    <br>
-  </div>
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-</body>
-</html>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+  </html>
