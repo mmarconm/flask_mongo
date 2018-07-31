@@ -25,12 +25,17 @@
           <label for="">Email</label>
           <input class="form-control" type="text" name="email" value="{{ u.email }}"></input>
         </div>
+        <br>
+        <div class="">
+          <input class="" type="radio" value="{{ u.status }}" name="option" checked> {{ u.status }}
+        </div>
       </div>
       <br>
       {% endfor %}
       <div class="">
         <input class="btn btn-danger" type="submit" value="Update"></input>
-      </div>
+        <a href="{{ url_for('todo') }}" class="btn btn-warning">Return List</a>
+          </div>
     </form>
     </div>
 

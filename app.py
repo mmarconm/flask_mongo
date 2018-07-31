@@ -52,10 +52,9 @@ def update(id):
         }
 
         if item_doc['name'] and item_doc['language'] and item_doc['email']:
-            db.tododb.update({"id": id}, {'$set': {"name": item_doc['name']}})
-            db.tododb.update({"id": id}, {'$set': {"email": item_doc['email']}})
-            db.tododb.update({"id": id}, {'$set': {"language": item_doc['language']}})
-            flash('User {} Updated'.format(item_doc['name']))
+            for key in item_doc.keys():
+                db.tododb.update({"id": id}, {'$set': {key: item_doc[key]}})
+            flash('User {} Updated !'.format(item_doc['name']))
             return redirect(url_for('todo'))
 
     return render_template('update.html', user=user)
