@@ -11,6 +11,10 @@
   <div class="container">
     <br>
     {% for u in user %}
+    <div class="jumbotron">
+
+      <p>Please Update Your data or Click in Return to return to todo list !!!</p>
+
     <form class="" action="{{ url_for('update', id=u.id) }}" method="POST">
       <div class="form-group">
         <div class="">
@@ -26,9 +30,6 @@
           <input class="form-control" type="text" name="email" value="{{ u.email }}"></input>
         </div>
         <br>
-        <div class="">
-          <input class="" type="radio" value="{{ u.status }}" name="option" checked> {{ u.status }}
-        </div>
       </div>
       <br>
       {% endfor %}
@@ -37,6 +38,7 @@
         <a href="{{ url_for('todo') }}" class="btn btn-warning">Return List</a>
           </div>
     </form>
+        </div>
     </div>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
