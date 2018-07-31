@@ -46,18 +46,20 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Date</th>
-            <th scope="col">Language</th>
-            <th scope="col">Status</th>
-            <th scope="col">Delete Me</th>
+            <th scope="col">NAME</th>
+            <th scope="col">DATE</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">LANGUAGE</th>
+            <th scope="col">STATUS</th>
+            <th scope="col">DELETE ME</th>
           </tr>
         </thead>
         <tbody>
           {% for item in items %}
             <tr>
-              <td>{{ item.name }}</td>
+              <td><a href="{{ url_for('update', id=item.id) }}">{{ item.name }}</a></td>
               <td>{{ item.date }}</td>
+              <td>{{ item.email }}</td>
               <td>{{ item.language }}</td>
               <td>{{ item.status }}</td>
               <td><a class="btn btn-warning" href="{{ url_for('delete', id=item.id) }}">Delete</a></td>

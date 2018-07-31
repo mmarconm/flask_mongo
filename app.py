@@ -24,9 +24,7 @@ def todo():
 
 @app.route('/new', methods=['POST'])
 def new():
-
     if request.method == "POST":
-
         item_doc = {
             'id': uuid4().hex,
             'date': datetime.now().strftime('%b %d %Y %I:%M%p'),
@@ -40,8 +38,27 @@ def new():
             flash('User Saved !')
             db.tododb.insert_one(item_doc)
 
-
     return redirect(url_for('todo'))
+
+@app.route('/update/<string:id>', methods=['POST', 'GET'])
+def update(id):
+    user = db.tododb.find({"id": id})
+
+    if request.method == "POST":
+        item_doc = {
+            'email': request.form['email'],
+            'name': request.form['name'],
+            'language': request.form['language']
+        }
+
+        if item_doc['name'] and item_doc['language'] and item_doc['email']:
+            db.tododb.update({"id": id}, {'$set': {"name": item_doc['name']}})
+            db.tododb.update({"id": id}, {'$set': {"email": item_doc['email']}})
+            db.tododb.update({"id": id}, {'$set': {"language": item_doc['language']}})
+            flash('User {} Updated'.format(item_doc['name']))
+            return redirect(url_for('todo'))
+
+    return render_template('update.html', user=user)
 
 @app.route('/delete/<string:id>', methods=['POST', 'GET'])
 def delete(id):
