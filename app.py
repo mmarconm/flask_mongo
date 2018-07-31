@@ -36,10 +36,11 @@ def new():
             'language': request.form['language']
         }
 
-        if item_doc['name'] and item_doc['language']:
+        if item_doc['name'] and item_doc['language'] and item_doc['email']:
+            flash('User Saved !')
             db.tododb.insert_one(item_doc)
 
-    flash('User Saved !')
+
     return redirect(url_for('todo'))
 
 @app.route('/delete/<string:id>', methods=['POST', 'GET'])

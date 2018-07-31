@@ -28,7 +28,7 @@
         <div class="">
           <input class="" type="radio" value="em_rota" name="option"> Em Rota
           <input class="" type="radio" value="entregar" name="option"> A Entregar
-          <input class="" type="radio" value="conferir" name="option"> Conferir
+          <input class="" type="radio" value="conferir" name="option" checked> Conferir
         </div>
       </div>
       <br>
@@ -60,7 +60,7 @@
               <td>{{ item.date }}</td>
               <td>{{ item.language }}</td>
               <td>{{ item.status }}</td>
-              <td><a href="{{ url_for('delete', id=item.id) }}">Delete</a></td>
+              <td><a class="btn btn-warning" href="{{ url_for('delete', id=item.id) }}">Delete</a></td>
             </tr>
           {% endfor %}
           </tbody>
