@@ -1,22 +1,24 @@
 from flask import Flask, redirect, url_for, request, render_template, flash
-from pymongo import MongoClient
+# from pymongo import MongoClient, ASCENDING, DESCENDING
+from flask_pymongo import PyMongo, pymongo
 from uuid import uuid4
 from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'Secret'
+app.config['MONGO_URI'] = "mongodb://mmarconm:admin@localhost/tododb" # defaults to port 27017
+
+mongo = PyMongo(app)
 
 # client = MongoClient('192.168.0.103')
-client = MongoClient("mongodb://mmarconm:admin@localhost/tododb") # defaults to port 27017
-
-db = client.tododb
-
+# client = MongoClient("mongodb://mmarconm:admin@localhost/tododb") # defaults to port 27017
+# db = client.tododb
 
 @app.route('/')
 def todo():
 
-    _items = db.tododb.find()
-    count = db.tododb.find().count()
+    _items = mongo.db.tododb.find().sort('date', -1)
+    count = mongo.db.tododb.find().count()
     items = [item for item in _items]
 
     return render_template('todo.html', items=items, count=count)
@@ -36,13 +38,13 @@ def new():
 
         if item_doc['name'] and item_doc['language'] and item_doc['email']:
             flash('User Saved !')
-            db.tododb.insert_one(item_doc)
+            mongo.db.tododb.insert_one(item_doc)
 
     return redirect(url_for('todo'))
 
 @app.route('/update/<string:id>', methods=['POST', 'GET'])
 def update(id):
-    user = db.tododb.find({"id": id})
+    user = mongo.db.tododb.find({"id": id})
 
     if request.method == "POST":
         item_doc = {
@@ -53,7 +55,7 @@ def update(id):
 
         if item_doc['name'] and item_doc['language'] and item_doc['email']:
             for key in item_doc.keys():
-                db.tododb.update({"id": id}, {'$set': {key: item_doc[key]}})
+                mongo.db.tododb.update({"id": id}, {'$set': {key: item_doc[key]}})
             flash('User {} Updated !'.format(item_doc['name']))
             return redirect(url_for('todo'))
 
@@ -65,7 +67,7 @@ def delete(id):
         item_doc = {
             "id": id
         }
-        db.tododb.remove(item_doc)
+        mongo.db.tododb.remove(item_doc)
         flash("User Deleted !")
         return redirect(url_for('todo'))
 
@@ -73,8 +75,8 @@ def delete(id):
 
 @app.route('/delete_all', methods=['POST', 'GET'])
 def delete_all():
-    if db.tododb.find().count() > 0:
-        db.tododb.drop()
+    if mongo.db.tododb.find().count() > 0:
+        mongo.db.tododb.drop()
         flash('Removed All Users from Database')
         return redirect(url_for('todo'))
 
